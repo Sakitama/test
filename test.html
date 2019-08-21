@@ -11,12 +11,14 @@
             width: 5rem;
             height: 1rem;
             border: 1px solid red;
+            margin: 0 0 20px 0;
         }
     </style>
 </head>
 
 <body>
     <div class="btn"></div>
+    <div class="btn" id="btn2"></div>
     <script>
         var win = window;
         var doc = win.document;
@@ -55,6 +57,8 @@
         }, false);
 
         refreshRem();
+
+        doc.getElementById('btn2').style.border = devicePixelRatio + 'px solid red';
     </script>
 </body>
 
