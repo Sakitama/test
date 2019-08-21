@@ -1,26 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            .btn {
-                font-family: miui;
-                width: 70px;
-                color: red;
-                line-height: 20px;
-                text-align: center;
-                font-size: 14px;
-                border: 1px solid red;
-            }           
-            .btn2 {
-                font-size: 8px;
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 20px;
+            padding: 0;
+        }
+        .btn {
+            width: 5rem;
+            height: 1rem;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn"></div>
+    <script>
+        var win = window;
+        var doc = win.document;
+        var docEl = doc.documentElement;
+        var scale = 0;
+        var tid = null;
+        var devicePixelRatio = win.devicePixelRatio;
+        scale = 1 / devicePixelRatio;
+        var metaEl = doc.createElement('meta');
+        metaEl.setAttribute('name', 'viewport');
+        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' +
+            scale + ', user-scalable=no');
+        if (docEl.firstElementChild) {
+            docEl.firstElementChild.appendChild(metaEl);
+        } else {
+            var wrap = doc.createElement('div');
+            wrap.appendChild(metaEl);
+            doc.write(wrap.innerHTML);
+        }
+
+        function refreshRem() {
+            var width = docEl.clientWidth;
+            var rem = width / 10;
+            docEl.style.fontSize = rem + 'px';
+        }
+
+        win.addEventListener('resize', function () {
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+        }, false);
+        win.addEventListener('pageshow', function (e) {
+            if (e.persisted) {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
             }
-        </style>
-    </head>
-    <body>
-        <div style="display: flex;">
-                <div class="btn">满减优惠</div>
-                <div class="btn btn2">满减优惠</div>
-        </div>
-    </body>
+        }, false);
+
+        refreshRem();
+    </script>
+</body>
+
 </html>
