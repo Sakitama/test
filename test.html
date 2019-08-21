@@ -13,17 +13,19 @@
         }
         .btn {
             width: 5rem;
+            padding: 5px;
             height: 1rem;
             border: 1px solid red;
             margin: 0 0 20px 0;
+            font-size: 0.3rem;
         }
     </style>
 </head>
 
 <body>
     <div id="dpr"></div>
-    <div class="btn"></div>
-    <div class="btn" id="btn2"></div>
+    <div class="btn">设置initial-scale实现的1物理像素边框</div>
+    <div class="btn" id="btn2">不设置initial-scale的1px边框，实际宽度是1*dpr物理像素</div>
     <script>
         var win = window;
         var doc = win.document;
