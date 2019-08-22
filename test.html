@@ -24,8 +24,8 @@
 
 <body>
     <div id="dpr"></div>
-    <div class="btn">设置initial-scale实现的1物理像素边框</div>
-    <div class="btn" id="btn2">不设置initial-scale的1px边框，实际宽度是1*dpr物理像素</div>
+    <div class="btn"></div>
+    <div class="btn" id="btn2"></div>
     <script>
         var win = window;
         var doc = win.document;
@@ -33,10 +33,10 @@
         var scale = 0;
         var tid = null;
         var devicePixelRatio = win.devicePixelRatio;
-        scale = 1 / 2;
+        scale = 1 / devicePixelRatio;
         var metaEl = doc.createElement('meta');
         metaEl.setAttribute('name', 'viewport');
-        metaEl.setAttribute('content', 'width=900, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
         if (docEl.firstElementChild) {
             docEl.firstElementChild.appendChild(metaEl);
         } else {
