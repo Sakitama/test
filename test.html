@@ -12,7 +12,7 @@
             font-size: 0.5rem;
         }
         .btn {
-            width: 5rem;
+            width: 450px;
             padding: 5px;
             height: 1rem;
             border: 1px solid red;
@@ -33,11 +33,10 @@
         var scale = 0;
         var tid = null;
         var devicePixelRatio = win.devicePixelRatio;
-        scale = 1 / devicePixelRatio;
+        scale = 1 / 2;
         var metaEl = doc.createElement('meta');
         metaEl.setAttribute('name', 'viewport');
-        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' +
-            scale + ', user-scalable=no');
+        metaEl.setAttribute('content', 'width=900, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
         if (docEl.firstElementChild) {
             docEl.firstElementChild.appendChild(metaEl);
         } else {
