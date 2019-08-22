@@ -7,7 +7,7 @@
             margin: 20px;
             padding: 0;
         }
-        #dpr {
+        #dpr, #defaultScale, #newScale, #test, #test2 {
             margin: 0 0 20px 0;
             font-size: 0.5rem;
         }
@@ -24,16 +24,30 @@
 
 <body>
     <div id="dpr"></div>
-    <div class="btn"></div>
-    <div class="btn" id="btn2"></div>
+    <div id="defaultScale"></div>
+    <div id="test"></div>
+    <div id="newScale"></div>
+    <div id="test2"></div>
+    <div class="btn">1pp边框</div>
+    <div class="btn" id="btn2">默认下的1px边框</div>
     <script>
         var win = window;
         var doc = win.document;
         var docEl = doc.documentElement;
         var scale = 0;
         var tid = null;
+
         var devicePixelRatio = win.devicePixelRatio;
+        
         scale = 1 / devicePixelRatio;
+
+        var originVisualViewport = window.innerWidth;
+
+        doc.getElementById('test').innerHTML = '默认visual viewport：' + originVisualViewport + '<br>默认layout viewport：' + docEl.clientWidth;
+
+        doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / window.innerWidth;
+        doc.getElementById('newScale').innerHTML = 'initial-scale：' + scale;
+
         var metaEl = doc.createElement('meta');
         metaEl.setAttribute('name', 'viewport');
         metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
@@ -44,6 +58,7 @@
             wrap.appendChild(metaEl);
             doc.write(wrap.innerHTML);
         }
+        doc.getElementById('test2').innerHTML = 'visual viewport：' + window.innerWidth + '<br>layout viewport：' + docEl.clientWidth;
 
         function refreshRem() {
             var width = docEl.clientWidth;
@@ -64,7 +79,7 @@
 
         refreshRem();
 
-        doc.getElementById('btn2').style.border = devicePixelRatio + 'px solid red';
+        doc.getElementById('btn2').style.border = window.innerWidth / originVisualViewport + 'px solid red';
         doc.getElementById('dpr').innerHTML = '当前设备dpr：' + devicePixelRatio;
     </script>
 </body>
