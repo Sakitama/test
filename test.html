@@ -7,7 +7,7 @@
             margin: 20px;
             padding: 0;
         }
-        #dpr, #defaultScale, #newScale, #test, #test2 {
+        #dpr, #defaultScale, #newScale, #test, #test2, #test0 {
             margin: 0 0 20px 0;
             font-size: 0.5rem;
         }
@@ -25,6 +25,7 @@
 <body>
     <div id="dpr"></div>
     <div id="defaultScale"></div>
+    <div id="test0"></div>
     <div id="test"></div>
     <div id="newScale"></div>
     <div id="test2"></div>
@@ -44,20 +45,25 @@
 
         var originVisualViewport = window.innerWidth;
 
+        doc.getElementById('test0').innerHTML = '逻辑像素：' + window.screen.width;
         doc.getElementById('test').innerHTML = '默认visual viewport：' + originVisualViewport + '<br>默认layout viewport：' + docEl.clientWidth;
-
-        doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / window.innerWidth;
+        doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / originVisualViewport;
         doc.getElementById('newScale').innerHTML = 'initial-scale：' + scale;
 
-        var metaEl = doc.createElement('meta');
-        metaEl.setAttribute('name', 'viewport');
-        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-        if (docEl.firstElementChild) {
-            docEl.firstElementChild.appendChild(metaEl);
+        var metaEl = doc.querySelector('meta[name="viewport"]');
+        if (!metaEl) {
+            metaEl = doc.createElement('meta');
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+            if (docEl.firstElementChild) {
+                docEl.firstElementChild.appendChild(metaEl);
+            } else {
+                var wrap = doc.createElement('div');
+                wrap.appendChild(metaEl);
+                doc.write(wrap.innerHTML);
+            }
         } else {
-            var wrap = doc.createElement('div');
-            wrap.appendChild(metaEl);
-            doc.write(wrap.innerHTML);
+            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
         }
         doc.getElementById('test2').innerHTML = 'visual viewport：' + window.innerWidth + '<br>layout viewport：' + docEl.clientWidth;
 
