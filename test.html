@@ -54,7 +54,7 @@
     var originLayoutViewport = docEl.clientWidth;
 
     doc.getElementById('test0').innerHTML = '逻辑像素：' + window.screen.width;
-    doc.getElementById('test').innerHTML = '默认visual viewport：' + originVisualViewport + '<br>默认layout viewport：' + originLayoutViewport;
+    doc.getElementById('test').innerHTML = '默认layout viewport：' + originLayoutViewport;
     doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / originVisualViewport;
 
     var metaEl = doc.createElement('meta');
@@ -69,13 +69,14 @@
     }
 
     if (docEl.clientWidth === originLayoutViewport) {
-      metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no');
+      metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no');
       doc.getElementById('newScale').innerHTML = '无法改变';
+      doc.getElementById('btn').style.border = scale + 'px solid red';
     } else {
       doc.getElementById('newScale').innerHTML = '改变了';
     }
 
-    doc.getElementById('test2').innerHTML = 'visual viewport：' + window.innerWidth + '<br>layout viewport：' + docEl.clientWidth;
+    doc.getElementById('test2').innerHTML = 'layout viewport：' + docEl.clientWidth;
 
     function refreshRem() {
       var width = docEl.clientWidth;
