@@ -59,21 +59,13 @@
 
     var metaEl = doc.createElement('meta');
     metaEl.setAttribute('name', 'viewport');
-    metaEl.setAttribute('content', 'target-densitydpi=device-dpi, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+    metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=' + window.screen.width / scale + ', initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
     if (docEl.firstElementChild) {
       docEl.firstElementChild.appendChild(metaEl);
     } else {
       var wrap = doc.createElement('div');
       wrap.appendChild(metaEl);
       doc.write(wrap.innerHTML);
-    }
-
-    if (docEl.clientWidth === originLayoutViewport) {
-      metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no');
-      doc.getElementById('newScale').innerHTML = '无法改变';
-      doc.getElementById('btn1').style.border = scale + 'px solid red';
-    } else {
-      doc.getElementById('newScale').innerHTML = '改变了';
     }
 
     doc.getElementById('test2').innerHTML = 'layout viewport：' + docEl.clientWidth;
