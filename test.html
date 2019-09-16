@@ -2,94 +2,101 @@
 <html>
 
 <head>
-    <style>
-        body {
-            margin: 20px;
-            padding: 0;
-        }
-        #dpr, #defaultScale, #newScale, #test, #test2, #test0 {
-            margin: 0 0 20px 0;
-            font-size: 0.5rem;
-        }
-        .btn {
-            width: 450px;
-            padding: 5px;
-            height: 1rem;
-            border: 1px solid red;
-            margin: 0 0 20px 0;
-            font-size: 0.3rem;
-        }
-    </style>
+  <style>
+    body {
+      margin: 20px;
+      padding: 0;
+    }
+
+    #dpr,
+    #defaultScale,
+    #newScale,
+    #test,
+    #test2,
+    #test0 {
+      margin: 0 0 20px 0;
+      font-size: 0.5rem;
+    }
+
+    .btn {
+      width: 450px;
+      padding: 5px;
+      height: 1rem;
+      border: 1px solid red;
+      margin: 0 0 20px 0;
+      font-size: 0.3rem;
+    }
+  </style>
 </head>
 
 <body>
-    <div id="dpr"></div>
-    <div id="defaultScale"></div>
-    <div id="test0"></div>
-    <div id="test"></div>
-    <div id="newScale"></div>
-    <div id="test2"></div>
-    <div class="btn">1pp边框</div>
-    <div class="btn" id="btn2">默认initial-scale下的1px边框</div>
-    <div class="btn" id="btn3">initial-scale：1.0下的1px边框</div>
-    <script>
-        var win = window;
-        var doc = win.document;
-        var docEl = doc.documentElement;
-        var scale = 0;
-        var tid = null;
+  <div id="dpr"></div>
+  <div id="defaultScale"></div>
+  <div id="test0"></div>
+  <div id="test"></div>
+  <div id="newScale"></div>
+  <div id="test2"></div>
+  <div class="btn">1pp边框</div>
+  <div class="btn" id="btn2">默认initial-scale下的1px边框</div>
+  <div class="btn" id="btn3">initial-scale：1.0下的1px边框</div>
+  <script>
+    var win = window;
+    var doc = win.document;
+    var docEl = doc.documentElement;
+    var scale = 0;
+    var tid = null;
 
-        var devicePixelRatio = win.devicePixelRatio;
-        
-        scale = 1 / devicePixelRatio;
+    var devicePixelRatio = win.devicePixelRatio;
 
-        var originVisualViewport = window.innerWidth;
+    scale = 1 / devicePixelRatio;
 
-        doc.getElementById('test0').innerHTML = '逻辑像素：' + window.screen.width;
-        doc.getElementById('test').innerHTML = '默认visual viewport：' + originVisualViewport + '<br>默认layout viewport：' + docEl.clientWidth;
-        doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / originVisualViewport;
-        doc.getElementById('newScale').innerHTML = 'initial-scale：' + scale;
+    var originVisualViewport = window.innerWidth;
 
-        var metaEl = doc.querySelector('meta[name="viewport"]');
-        if (!metaEl) {
-            metaEl = doc.createElement('meta');
-            metaEl.setAttribute('name', 'viewport');
-            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-            if (docEl.firstElementChild) {
-                docEl.firstElementChild.appendChild(metaEl);
-            } else {
-                var wrap = doc.createElement('div');
-                wrap.appendChild(metaEl);
-                doc.write(wrap.innerHTML);
-            }
-        } else {
-            metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-        }
-        doc.getElementById('test2').innerHTML = 'visual viewport：' + window.innerWidth + '<br>layout viewport：' + docEl.clientWidth;
+    doc.getElementById('test0').innerHTML = '逻辑像素：' + window.screen.width;
+    doc.getElementById('test').innerHTML = '默认visual viewport：' + originVisualViewport + '<br>默认layout viewport：' + docEl.clientWidth;
+    doc.getElementById('defaultScale').innerHTML = '默认initial-scale：' + window.screen.width / originVisualViewport;
+    doc.getElementById('newScale').innerHTML = 'initial-scale：' + scale;
 
-        function refreshRem() {
-            var width = docEl.clientWidth;
-            var rem = width / 10;
-            docEl.style.fontSize = rem + 'px';
-        }
+    var metaEl = doc.createElement('meta');
+    metaEl.setAttribute('name', 'viewport');
+    metaEl.setAttribute('content', 'target-densitydpi=device-dpi, initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+    if (docEl.firstElementChild) {
+      docEl.firstElementChild.appendChild(metaEl);
+    } else {
+      var wrap = doc.createElement('div');
+      wrap.appendChild(metaEl);
+      doc.write(wrap.innerHTML);
+    }
 
-        win.addEventListener('resize', function () {
-            clearTimeout(tid);
-            tid = setTimeout(refreshRem, 300);
-        }, false);
-        win.addEventListener('pageshow', function (e) {
-            if (e.persisted) {
-                clearTimeout(tid);
-                tid = setTimeout(refreshRem, 300);
-            }
-        }, false);
+    if (docEl.clientWidth === 980) {
+      metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1');
+    }
 
-        refreshRem();
+    doc.getElementById('test2').innerHTML = 'visual viewport：' + window.innerWidth + '<br>layout viewport：' + docEl.clientWidth;
 
-        doc.getElementById('btn2').style.border = window.innerWidth / originVisualViewport + 'px solid red';
-        doc.getElementById('btn3').style.border = devicePixelRatio + 'px solid red';
-        doc.getElementById('dpr').innerHTML = '当前设备dpr：' + devicePixelRatio;
-    </script>
+    function refreshRem() {
+      var width = docEl.clientWidth;
+      var rem = width / 10;
+      docEl.style.fontSize = rem + 'px';
+    }
+
+    win.addEventListener('resize', function () {
+      clearTimeout(tid);
+      tid = setTimeout(refreshRem, 300);
+    }, false);
+    win.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        clearTimeout(tid);
+        tid = setTimeout(refreshRem, 300);
+      }
+    }, false);
+
+    refreshRem();
+
+    doc.getElementById('btn2').style.border = window.innerWidth / originVisualViewport + 'px solid red';
+    doc.getElementById('btn3').style.border = devicePixelRatio + 'px solid red';
+    doc.getElementById('dpr').innerHTML = '当前设备dpr：' + devicePixelRatio;
+  </script>
 </body>
 
 </html>
