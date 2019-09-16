@@ -36,7 +36,7 @@
   <div id="test"></div>
   <div id="newScale"></div>
   <div id="test2"></div>
-  <div class="btn">1pp边框</div>
+  <div class="btn" id="btn1">1pp边框</div>
   <div class="btn" id="btn2">默认initial-scale下的1px边框</div>
   <div class="btn" id="btn3">initial-scale：1.0下的1px边框</div>
   <script>
@@ -71,7 +71,7 @@
     if (docEl.clientWidth === originLayoutViewport) {
       metaEl.setAttribute('content', 'target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no');
       doc.getElementById('newScale').innerHTML = '无法改变';
-      doc.getElementById('btn').style.border = scale + 'px solid red';
+      doc.getElementById('btn1').style.border = scale + 'px solid red';
     } else {
       doc.getElementById('newScale').innerHTML = '改变了';
     }
